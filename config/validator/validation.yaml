@@ -1,0 +1,11 @@
+App\Entity\User:
+  properties:
+    name:
+      - Length:
+          min: 2
+          max: 5
+          minMessage: 'To few characters, at least {{ limit }} needed'
+          maxMessage: 'To many characters, allowed no more {{ limit }}'
+      - NotBlank:
+          message: 'Enter something'
+
