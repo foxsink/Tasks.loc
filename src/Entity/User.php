@@ -1,17 +1,24 @@
 <?php
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\JoinTable;
+use Doctrine\ORM\Mapping\ManyToMany;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * Class User
  * @package App
  *
  * @ORM\Entity
+ * @ORM\EntityListeners("App\EventListener\PasswordEncodePrePersist")
  * @ORM\Table(name="users")
  */
-class User
+class User implements UserInterface
 {
+
     /**
      * @var int|null
      *
@@ -19,49 +26,65 @@ class User
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    protected ?int $id = null;
+    private ?int $id = null;
+
+    /**
+     * @var Collection
+     *
+     * @ManyToMany(targetEntity="Project", inversedBy="users")
+     * @JoinTable(name="users_projects")
+     */
+    private Collection $projects;
 
     /**
      * @var string|null
      *
      * @ORM\Column(type="string", nullable=false, unique=true)
      */
-    protected ?string $email = null;
+    private ?string $email = null;
 
     /**
      * @var string|null
      *
-     * @ORM\Column(type="string", nullable=false)
+     * @ORM\Column(type="string")
      */
-    protected ?string $password = null;
+    private ?string $password = null;
 
     /**
      * @var string[]
      *
-     * @ORM\Column(type="json", nullable=false)
+     * @ORM\Column(type="json")
      */
-    protected array $roles = [];
+    private array $roles = [];
 
     /**
      * @var string|null
      *
-     * @ORM\Column(name="avatar_url", type="string")
+     * @ORM\Column(type="string", nullable=true)
      */
-    protected ?string $avatarUrl = null;
+    private ?string $avatarUrl = null;
 
     /**
      * @var string|null
      *
-     * @ORM\Column(name="first_name", type="string")
+     * @ORM\Column(type="string")
      */
-    protected ?string $firstName = null;
+    private ?string $firstName = null;
 
     /**
      * @var string|null
      *
-     * @ORM\Column(name="last_name", type="string")
+     * @ORM\Column(type="string")
      */
-    protected ?string $lastName = null;
+    private ?string $lastName = null;
+
+    /**
+     * User constructor.
+     */
+    public function __construct()
+    {
+        $this->projects = new ArrayCollection();
+    }
 
     /**
      * @return int|null
@@ -112,7 +135,10 @@ class User
      */
     public function getRoles(): array
     {
-        return $this->roles;
+        $roles = $this->roles;
+        $roles[] = 'ROLE_USER';
+        return array_unique($roles);
+
     }
 
     /**
@@ -179,6 +205,18 @@ class User
         return $this;
     }
 
+    public function getSalt(): ?string
+    {
+        return null;
+    }
 
+    public function getUsername(): string
+    {
+        return $this->getEmail();
+    }
 
+    public function eraseCredentials()
+    {
+        // TODO: Implement eraseCredentials() method.
+    }
 }

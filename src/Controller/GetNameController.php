@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Form\Type\UserType;
+use App\Form\Type\RegisterType;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -23,12 +23,12 @@ class GetNameController extends AbstractController
      *
      * @throws Exception
      */
-    public function name(Request $request, Connection $connection): Response
+    public function name(Request $request): Response
     {
 
         $task = new User();
 
-        $form = $this->createForm(UserType::class, $task);
+        $form = $this->createForm(RegisterType::class, $task);
         $form->handleRequest($request);
 
 
