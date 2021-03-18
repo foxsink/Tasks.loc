@@ -1,0 +1,23 @@
+{% use 'bootstrap_4_layout.html.twig' %}
+
+{% block security_password_label %}
+
+{% endblock %}
+{% block security_password_widget %}
+    {% set placeholder = placeholder|default(attribute(attr, 'placeholder') ?? label ?? 'Password') %}
+    {{ form_widget(form, {'attr': {'placeholder': placeholder}}) }}
+{% endblock %}
+{% block security_email_label %}
+
+{% endblock %}
+{% block security_email_widget %}
+    {% set placeholder = placeholder|default(attribute(attr, 'placeholder') ?? label ?? 'Email') %}
+    {{ form_widget(form, {'attr': {'placeholder': placeholder}}) }}
+{% endblock %}
+{% block text_label %}
+
+{% endblock %}
+{% block text_widget %}
+    {% set placeholder = placeholder|default(attribute(attr, 'placeholder') ?? label ?? 'Text field') %}
+    {{ form_widget(form, {'attr': {'placeholder': placeholder}}) }}
+{% endblock %}

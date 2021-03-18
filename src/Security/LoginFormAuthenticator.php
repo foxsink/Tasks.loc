@@ -5,7 +5,9 @@ namespace App\Security;
 
 
 use App\Entity\User;
+use App\Form\Type\LoginType;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -33,13 +35,20 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
     private UrlGeneratorInterface $urlGenerator;
     private CsrfTokenManagerInterface $csrfTokenManager;
     private UserPasswordEncoderInterface $passwordEncoder;
+    private FormFactoryInterface $formFactory;
 
-    public function __construct(EntityManagerInterface $entityManager, UrlGeneratorInterface $urlGenerator, CsrfTokenManagerInterface $csrfTokenManager, UserPasswordEncoderInterface $passwordEncoder)
-    {
+    public function __construct(
+        EntityManagerInterface $entityManager,
+        UrlGeneratorInterface $urlGenerator,
+        CsrfTokenManagerInterface $csrfTokenManager,
+        UserPasswordEncoderInterface $passwordEncoder,
+        FormFactoryInterface $formFactory
+    ) {
         $this->entityManager    = $entityManager;
         $this->urlGenerator     = $urlGenerator;
         $this->csrfTokenManager = $csrfTokenManager;
         $this->passwordEncoder  = $passwordEncoder;
+        $this->formFactory = $formFactory;
     }
 
     /**
@@ -64,11 +73,14 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
      */
     public function getCredentials(Request $request): array
     {
-        $credentials = [
-            'email'      => $request->request->get('email'),
-            'password'   => $request->request->get('password'),
-            'csrf_token' => $request->request->get('_csrf_token'),
-        ];
+        $form = $this->formFactory->create(LoginType::class);
+        $form->handleRequest($request);
+
+        if (!$form->isSubmitted() || !$form->isValid()) {
+            throw new InvalidCsrfTokenException('Invalid CSRF token, try reload page!');
+        }
+
+        $credentials = $form->getData();
         $request->getSession()->set(
             Security::LAST_USERNAME,
             $credentials['email']
@@ -81,11 +93,6 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
      */
     public function getUser($credentials, UserProviderInterface $userProvider): ?UserInterface
     {
-        $token = new CsrfToken('authenticate', $credentials['csrf_token']);
-        if (!$this->csrfTokenManager->isTokenValid($token)){
-            throw new InvalidCsrfTokenException();
-        }
-
         $user = $this->entityManager->getRepository(User::class)->findOneBy(['email' => $credentials['email']]);
 
         if (!$user){

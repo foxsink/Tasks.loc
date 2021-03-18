@@ -147,6 +147,10 @@ class User implements UserInterface
      */
     public function setRoles(array $roles): User
     {
+        $roles = array_unique($roles);
+        if (($key = array_search('ROLE_USER', $roles)) !== false) {
+            unset($roles[$key]);
+        }
         $this->roles = $roles;
         return $this;
     }

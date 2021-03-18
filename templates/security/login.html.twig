@@ -1,17 +1,11 @@
-{% extends 'securityBase.html.twig' %}
+{% extends '/layout/securityBase.html.twig' %}
+
 {% block body %}
-    <form method="post">
-        <label for="inputEmail">Email</label>
-        <input type="email" value="{{ lastUsername }}" name="email" id="inputEmail" class="form-control" required autofocus>
-        <label for="inputPassword">Password</label>
-        <input type="password" name="password" id="inputPassword" class="form-control" required>
 
-        <input type="hidden" name="_csrf_token"
-               value="{{ csrf_token('authenticate') }}"
-        >
-
-        <button class="btn btn-lg btn-primary" type="submit">
-            Sign in
-        </button>
-    </form>
+    {% form_theme form 'forms/securityTheme.html.twig' %}
+    {{ form_start(form, {attr: {class: 'form-signin'}})}}
+    <img class="mb-4" src="img/logo.png" alt="" width="72" height="72">
+    <h1 class="h3 mb-3 font-weight-normal">{{ h1 }}</h1>
+    {{ error }}
+    {{ form_end(form) }}
 {% endblock %}

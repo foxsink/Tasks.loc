@@ -1,8 +1,9 @@
-<html>
-<body>
-<h1 class="h3 mb-3 font-weight-normal">Please register</h1>
+{% extends '/layout/securityBase.html.twig' %}
 
-{{ form(form) }}
-
-</body>
-</html>
+{% block body %}
+    {% form_theme form 'forms/securityTheme.html.twig' %}
+    {{ form_start(form, {attr: {class: 'form-signin'}})}}
+    <img class="mb-4" src="img/logo.png" alt="" width="72" height="72">
+    <h1 class="h3 mb-3 font-weight-normal">{{ h1 }}</h1>
+    {{ form_end(form) }}
+{% endblock %}
