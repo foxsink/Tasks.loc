@@ -47,7 +47,7 @@ class ModeUserCommand extends Command
 
             if (!$input->getArgument('role')) {
                 $questionRole = new ChoiceQuestion(
-                    "User role change to [\"ROLE_USER\",\"ROLE_ADMIN\",\"ROLE_SUPERADMIN\"]\n",
+                    "User role change to [\"ROLE_USER\",\"ROLE_ADMIN\",\"ROLE_SUPERADMIN\"] (default: ROLE_ADMIN)\n",
                     ["ROLE_USER", "ROLE_ADMIN" ,"ROLE_SUPERADMIN"],
                     "ROLE_ADMIN"
                 );
@@ -75,7 +75,7 @@ class ModeUserCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $user = $this->entityManager->getRepository(User::class)->findOneBy(['email' => $input->getArgument('email')]);
-        if ($user){
+        if ($user) {
             $output->writeln('Email: ' . $user->getEmail() . ' found');
             $output->writeln('Previous roles: ' . join(", ", $user->getRoles()));
             $user->setRoles([$input->getArgument('role')]);
