@@ -80,11 +80,9 @@ class ModeUserCommand extends Command
             $output->writeln('Previous roles: ' . join(", ", $user->getRoles()));
             $user->setRoles([$input->getArgument('role')]);
             $this->entityManager->flush();
-
-            return Command::SUCCESS;
-
+            return 0;
         }
-        return Command::FAILURE;
+        return 1;
     }
 
 }

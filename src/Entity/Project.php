@@ -5,6 +5,7 @@ namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\JoinTable;
 use Doctrine\ORM\Mapping\ManyToMany;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping\ManyToOne;
@@ -32,7 +33,8 @@ class Project
     /**
      * @var Collection
      *
-     * @ManyToMany(targetEntity="User", mappedBy="projects")
+     * @ManyToMany(targetEntity="User", inversedBy="projects")
+     * @JoinTable(name="users_projects")
      */
     private Collection $users;
 
@@ -85,7 +87,7 @@ class Project
      * @param Collection $users
      * @return Project
      */
-    public function setUsers($users)
+    public function setUsers(Collection $users): Project
     {
         $this->users = $users;
         return $this;
@@ -125,5 +127,13 @@ class Project
     {
         $this->active = $active;
         return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function __toString(): ?string
+    {
+        return ( $this->getId() ) ? $this->getTitle(): 'Unknown project';
     }
 }

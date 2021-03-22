@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Controller;
-
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,11 +15,10 @@ class IndexController extends AbstractController
      */
     public function index(): Response
     {
-
-//        $username = $this->getUser()->getUsername();
+        if (!$this->getUser()) {
+            return $this->redirectToRoute('app_security_login');
+        }
         return $this->render('index.html.twig', [
-            'title' => 'Index',
-//         'username' => $username,
 
         ]);
     }

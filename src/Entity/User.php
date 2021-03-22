@@ -31,8 +31,8 @@ class User implements UserInterface
     /**
      * @var Collection
      *
-     * @ManyToMany(targetEntity="Project", inversedBy="users")
-     * @JoinTable(name="users_projects")
+     * @ManyToMany(targetEntity="Project", mappedBy="users")
+     *
      */
     private Collection $projects;
 
@@ -92,6 +92,16 @@ class User implements UserInterface
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    /**
+     * @param int|null $id
+     * @return User
+     */
+    public function setId(?int $id): User
+    {
+        $this->id = $id;
+        return $this;
     }
 
     /**
@@ -155,6 +165,7 @@ class User implements UserInterface
         return $this;
     }
 
+
     /**
      * @return string|null
      */
@@ -207,6 +218,29 @@ class User implements UserInterface
     {
         $this->lastName = $lastName;
         return $this;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getProjects()
+    {
+        return $this->projects;
+    }
+
+    /**
+     * @param Collection $projects
+     * @return User
+     */
+    public function setProjects(Collection $projects): User
+    {
+        $this->projects = $projects;
+        return $this;
+    }
+
+    public function __toString()
+    {
+        return ( $this->getId() ) ? $this->getEmail(): 'Unknown user';
     }
 
     public function getSalt(): ?string

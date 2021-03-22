@@ -34,8 +34,15 @@ services:
         tags:
             - { name: doctrine.orm.entity_listener }
 #                arguments: ['@security.password_encoder']
-    admin.category:
+    admin.users:
         class: App\Admin\UserAdmin
-        arguments: [~, App\Entity\User, ~]
+        arguments: [~, App\Entity\User, App\Controller\Admin\UserAdminController]
+
         tags:
-            - { name: sonata.admin, manager_type: orm, label: User }
+            - { name: sonata.admin, manager_type: orm, group: Users,label: User }
+    admin.projects:
+        class: App\Admin\ProjectAdmin
+        arguments: [ ~, App\Entity\Project, ~ ]
+
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: Projects,label: Project }
