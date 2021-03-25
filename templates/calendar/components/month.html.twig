@@ -1,0 +1,10 @@
+<h1 class="text-center">{{ month|date('F') }}</h1>
+<div class="row">
+    {% for day in currentMonth %}
+        <div class="col-to-7">
+            <a href="{{ path('app_dayreport_dayreport', {year: day|date('Y') ,month: day|date('m'), day: day|date('d') }) }}">
+                {{ day|date('Y-m-d') }}
+            </a>
+        </div>
+    {% endfor %}
+</div>

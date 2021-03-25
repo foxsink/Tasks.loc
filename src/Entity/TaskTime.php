@@ -3,6 +3,7 @@
 
 namespace App\Entity;
 
+use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\OneToOne;
@@ -27,32 +28,32 @@ class TaskTime
     private ?int $id = null;
 
     /**
-     * @var int|null
+     * @var Task|null
      *
-     * @ManyToOne (targetEntity="Task")
+     * @ManyToOne (targetEntity="Task", inversedBy="taskTimes")
      */
-    private ?int $task = null;
+    private ?Task $task = null;
 
     /**
-     * @var int|null
+     * @var User|null
      *
-     * @ManyToOne (targetEntity="User")
+     * @ManyToOne (targetEntity="User", inversedBy="userTimes")
      */
-    private ?int $user = null;
+    private ?User $user = null;
 
     /**
-     * @var \DateTimeInterface|null
+     * @var DateTimeInterface|null
      *
      * @ORM\Column (type="datetime")
      */
-    private ?\DateTimeInterface $startedAt = null;
+    private ?DateTimeInterface $startedAt = null;
 
     /**
-     * @var \DateTimeInterface|null
+     * @var DateTimeInterface|null
      *
      * @ORM\Column (type="datetime")
      */
-    private ?\DateTimeInterface $endedAt = null;
+    private ?DateTimeInterface $endedAt = null;
 
     /**
      * @return int|null
@@ -99,36 +100,36 @@ class TaskTime
     }
 
     /**
-     * @return \DateTimeInterface|null
+     * @return DateTimeInterface|null
      */
-    public function getStartedAt(): ?\DateTimeInterface
+    public function getStartedAt(): ?DateTimeInterface
     {
         return $this->startedAt;
     }
 
     /**
-     * @param \DateTimeInterface|null $startedAt
+     * @param DateTimeInterface|null $startedAt
      * @return TaskTime
      */
-    public function setStartedAt(?\DateTimeInterface $startedAt): TaskTime
+    public function setStartedAt(?DateTimeInterface $startedAt): TaskTime
     {
         $this->startedAt = $startedAt;
         return $this;
     }
 
     /**
-     * @return \DateTimeInterface|null
+     * @return DateTimeInterface|null
      */
-    public function getEndedAt(): ?\DateTimeInterface
+    public function getEndedAt(): ?DateTimeInterface
     {
         return $this->endedAt;
     }
 
     /**
-     * @param \DateTimeInterface|null $endedAt
+     * @param DateTimeInterface|null $endedAt
      * @return TaskTime
      */
-    public function setEndedAt(?\DateTimeInterface $endedAt): TaskTime
+    public function setEndedAt(?DateTimeInterface $endedAt): TaskTime
     {
         $this->endedAt = $endedAt;
         return $this;

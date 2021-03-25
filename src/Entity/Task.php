@@ -3,17 +3,17 @@
 
 namespace App\Entity;
 
+use DateTimeInterface;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\OneToMany;
-use Doctrine\ORM\Mapping\OneToOne;
-use phpDocumentor\Reflection\Types\Collection;
 
 /**
  * Class Task
  * @package App\Entity
  *
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\TaskRepository")
  * @ORM\Table (name="tasks")
  */
 class Task
@@ -28,18 +28,25 @@ class Task
     private ?int $id = null;
 
     /**
-     * @var Collection
+     * @var Project
      *
      * @ManyToOne  (targetEntity="Project", inversedBy="tasks")
      */
-    private Collection $project;
+    private Project $project;
 
     /**
-     * @var string|null
+     * @var User|null
      *
      * @ManyToOne (targetEntity="User")
      */
-    private ?string $creator = null;
+    private ?User $creator = null;
+
+    /**
+     * @var Collection
+     *
+     * @OneToMany(targetEntity="App\Entity\TaskTime", mappedBy="task")
+     */
+    private Collection $taskTimes;
 
     /**
      * @var string|null
@@ -47,13 +54,13 @@ class Task
      * @ORM\Column (type="string")
      */
     private ?string $title = null;
-
+    //TODO figure ^(string) out
     /**
-     * @var \DateTimeInterface|null
+     * @var DateTimeInterface|null
      *
      * @ORM\Column (type="datetime")
      */
-    private ?\DateTimeInterface $createdAt = null;
+    private ?DateTimeInterface $createdAt = null;
 
     /**
      * @return int|null
@@ -64,18 +71,18 @@ class Task
     }
 
     /**
-     * @return Collection
+     * @return Project
      */
-    public function getProject(): Collection
+    public function getProject(): Project
     {
         return $this->project;
     }
 
     /**
-     * @param Collection $project
+     * @param Project $project
      * @return Task
      */
-    public function setProject(Collection $project): Task
+    public function setProject(Project $project): Task
     {
         $this->project = $project;
         return $this;
@@ -118,22 +125,46 @@ class Task
     }
 
     /**
-     * @return \DateTimeInterface|null
+     * @return DateTimeInterface|null
      */
-    public function getCreatedAt(): ?\DateTimeInterface
+    public function getCreatedAt(): ?DateTimeInterface
     {
         return $this->createdAt;
     }
 
     /**
-     * @param \DateTimeInterface|null $createdAt
+     * @param DateTimeInterface|null $createdAt
      * @return Task
      */
-    public function setCreatedAt(?\DateTimeInterface $createdAt): Task
+    public function setCreatedAt(?DateTimeInterface $createdAt): Task
     {
         $this->createdAt = $createdAt;
         return $this;
     }
 
+    /**
+     * @return Collection
+     */
+    public function getTaskTimes(): Collection
+    {
+        return $this->taskTimes;
+    }
 
+    /**
+     * @param Collection $taskTimes
+     * @return Task
+     */
+    public function setTaskTimes(Collection $taskTimes): Task
+    {
+        $this->taskTimes = $taskTimes;
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function __toString(): ?string
+    {
+        return $this->title;
+    }
 }

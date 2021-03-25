@@ -1,0 +1,12 @@
+{% extends '/layout/base.html.twig' %}
+
+{% block content %}
+
+    {% form_theme form 'forms/calendarTheme.html.twig' %}
+    <div class="projects-form">
+    {{ form_start(form) }}
+    {{ form_end(form) }}
+    </div>
+    <div class="tasks-form">
+    </div>
+{% endblock %}

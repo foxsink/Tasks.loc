@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\JoinTable;
 use Doctrine\ORM\Mapping\ManyToMany;
+use Doctrine\ORM\Mapping\OneToMany;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
@@ -35,6 +36,13 @@ class User implements UserInterface
      *
      */
     private Collection $projects;
+
+    /**
+     * @var Collection
+     *
+     * @OneToMany(targetEntity="App\Entity\TaskTime", mappedBy="user")
+     */
+    private Collection $userTimes;
 
     /**
      * @var string|null
@@ -235,6 +243,24 @@ class User implements UserInterface
     public function setProjects(Collection $projects): User
     {
         $this->projects = $projects;
+        return $this;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getUserTimes(): Collection
+    {
+        return $this->userTimes;
+    }
+
+    /**
+     * @param Collection $userTimes
+     * @return User
+     */
+    public function setUserTimes(Collection $userTimes): User
+    {
+        $this->userTimes = $userTimes;
         return $this;
     }
 

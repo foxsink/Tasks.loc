@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Form\Type;
+namespace App\Form\Type\Security;
 
 
 use Symfony\Component\Form\Extension\Core\Type\EmailType;

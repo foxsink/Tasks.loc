@@ -18,8 +18,6 @@ class IndexController extends AbstractController
         if (!$this->getUser()) {
             return $this->redirectToRoute('app_security_login');
         }
-        return $this->render('index.html.twig', [
-
-        ]);
+        return $this->redirectToRoute('app_calendar_calendar');
     }
 }

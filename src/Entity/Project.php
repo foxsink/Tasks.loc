@@ -4,11 +4,10 @@
 namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\JoinTable;
 use Doctrine\ORM\Mapping\ManyToMany;
-use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\OneToMany;
 
 /**
@@ -65,6 +64,7 @@ class Project
     public function __construct()
     {
         $this->users = new ArrayCollection();
+        $this->tasks = new ArrayCollection();
     }
 
     /**
@@ -126,6 +126,24 @@ class Project
     public function setActive(bool $active): Project
     {
         $this->active = $active;
+        return $this;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getTasks(): Collection
+    {
+        return $this->tasks;
+    }
+
+    /**
+     * @param Collection $tasks
+     * @return Project
+     */
+    public function setTasks(Collection $tasks): Project
+    {
+        $this->tasks = $tasks;
         return $this;
     }
 
