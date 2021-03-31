@@ -4,9 +4,11 @@
 namespace App\Entity;
 
 use DateTimeInterface;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\OneToOne;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * Class TaskTime
@@ -30,7 +32,7 @@ class TaskTime
     /**
      * @var Task|null
      *
-     * @ManyToOne (targetEntity="Task", inversedBy="taskTimes")
+     * @ManyToOne (targetEntity="Task", inversedBy="taskTimes", cascade={"persist"}))
      */
     private ?Task $task = null;
 
@@ -38,6 +40,7 @@ class TaskTime
      * @var User|null
      *
      * @ManyToOne (targetEntity="User", inversedBy="userTimes")
+     * @Gedmo\Blameable (on="create")
      */
     private ?User $user = null;
 
@@ -55,6 +58,14 @@ class TaskTime
      */
     private ?DateTimeInterface $endedAt = null;
 
+
+    /**
+     * @var string|null
+     *
+     * @ORM\Column (type="string", nullable=true)
+     */
+    private ?string $description = null;
+
     /**
      * @return int|null
      */
@@ -64,27 +75,27 @@ class TaskTime
     }
 
     /**
-     * @return int|null
+     * @return Task|null
      */
-    public function getTask(): ?int
+    public function getTask(): ?Task
     {
         return $this->task;
     }
 
     /**
-     * @param int|null $task
+     * @param Task|null $task
      * @return TaskTime
      */
-    public function setTask(?int $task): TaskTime
+    public function setTask(?Task $task): TaskTime
     {
         $this->task = $task;
         return $this;
     }
 
     /**
-     * @return int|null
+     * @return User|null
      */
-    public function getUser(): ?int
+    public function getUser(): ?User
     {
         return $this->user;
     }
@@ -134,5 +145,24 @@ class TaskTime
         $this->endedAt = $endedAt;
         return $this;
     }
+
+    /**
+     * @return string|null
+     */
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    /**
+     * @param string|null $description
+     * @return TaskTime
+     */
+    public function setDescription(?string $description): TaskTime
+    {
+        $this->description = $description;
+        return $this;
+    }
+
 
 }

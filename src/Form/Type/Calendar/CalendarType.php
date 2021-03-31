@@ -16,7 +16,7 @@ class CalendarType extends AbstractType
         $builder
             ->add("selectMonth", DateType::class, [
                 'widget' => 'choice',
-                'format' => 'dMyyyy',
+                'format' => 'dMy',
 
             ])
             ->add("submit", SubmitType::class)

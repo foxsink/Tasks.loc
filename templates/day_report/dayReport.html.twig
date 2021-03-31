@@ -2,11 +2,10 @@
 
 {% block content %}
 
-    {% form_theme form 'forms/calendarTheme.html.twig' %}
-    <div class="projects-form">
+    {% form_theme form 'forms/dayReportTheme.html.twig' %}
+
     {{ form_start(form) }}
+    {{ form_errors(form.project) }}
+    {{ form_widget(form) }}
     {{ form_end(form) }}
-    </div>
-    <div class="tasks-form">
-    </div>
 {% endblock %}

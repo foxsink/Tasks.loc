@@ -8,6 +8,8 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\OneToMany;
+use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Class Task
@@ -24,6 +26,8 @@ class Task
      * @ORM\Id
      * @ORM\GeneratedValue (strategy="AUTO")
      * @ORM\Column (name="id", type="integer")
+     *
+     * @Groups("taskIdGroup")
      */
     private ?int $id = null;
 
@@ -38,13 +42,14 @@ class Task
      * @var User|null
      *
      * @ManyToOne (targetEntity="User")
+     * @Gedmo\Blameable(on="create")
      */
     private ?User $creator = null;
 
     /**
      * @var Collection
      *
-     * @OneToMany(targetEntity="App\Entity\TaskTime", mappedBy="task")
+     * @OneToMany(targetEntity="App\Entity\TaskTime", mappedBy="task", cascade={"persist"}, orphanRemoval=true)
      */
     private Collection $taskTimes;
 
@@ -52,13 +57,16 @@ class Task
      * @var string|null
      *
      * @ORM\Column (type="string")
+     *
+     * @Groups("taskTitleGroup")
      */
     private ?string $title = null;
-    //TODO figure ^(string) out
+
     /**
      * @var DateTimeInterface|null
      *
      * @ORM\Column (type="datetime")
+     * @Gedmo\Timestampable (on="create")
      */
     private ?DateTimeInterface $createdAt = null;
 
@@ -157,6 +165,23 @@ class Task
     public function setTaskTimes(Collection $taskTimes): Task
     {
         $this->taskTimes = $taskTimes;
+        return $this;
+    }
+
+    /**
+     * @param TaskTime $taskTime
+     * @return $this
+     */
+    public function addTaskTime(TaskTime $taskTime): Task
+    {
+        $taskTime->setTask($this);
+        $this->taskTimes->add($taskTime);
+        return $this;
+    }
+
+    public function removeTaskTime(TaskTime $taskTime): Task
+    {
+        $this->taskTimes->removeElement($taskTime);
         return $this;
     }
 

@@ -1,0 +1,27 @@
+{% extends '/layout/base.html.twig' %}
+
+{% block content %}
+
+    {% form_theme form 'forms/calendarTheme.html.twig' %}
+    {{ form_start(form) }}
+        <ul class="task-time"
+            data-prototype="{{ form_widget(form.taskTimes.vars.prototype)|e('html_attr') }}"
+            data-index="{{ form.taskTimes|length }}"
+            {% for emailField in form.taskTimes %}
+                <li>
+                    {{ form_errors(emailField) }}
+                    {{ form_widget(emailField) }}
+                </li>
+
+            {% endfor %}
+        </ul>
+
+
+    {{ form_end(form) }}
+    <button type="button"
+            class="btn btn-primary add_item_link"
+            data-collection-holder-class="task-time"
+    >
+        Add Task Time
+    </button>
+{% endblock %}

@@ -2,29 +2,51 @@
 
 namespace App\Controller;
 
+use App\Entity\Objects\UserProjectTask;
 use App\Entity\Project;
+use App\Entity\Task;
 use App\Form\Type\Day\DayReportType;
-use App\Form\Type\Day\TasksType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\SerializerInterface;
 
 class DayReportController extends AbstractController
 {
+
     /**
      * @Route("calendar/{year}/{month}/{day}", options={"expose" = true})
      *
+     * @param Request $request
      * @param int|null $year
      * @param int|null $month
      * @param int|null $day
-     * @return mixed
+     * @return Response
      */
-    public function dayReport(?int $year, ?int $month, ?int $day): Response
+    public function dayReport(Request $request, ?int $year, ?int $month, ?int $day): Response
     {
-        $user = $this->getUser();
-        $form = $this->createForm(DayReportType::class, $user);
+        $form = $this->createForm(DayReportType::class, $object = new UserProjectTask());
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $task = $object->getTask();
 
+            if (!$task) {
+                $task = (new Task())->setTitle($object->getTaskName());
+                $task->setProject($object->getProject());
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->persist($task);
+                $entityManager->flush();
+            }
+
+            return $this->redirectToRoute('app_task_edittasktime', [
+                'year'  => $year,
+                'month' => $month,
+                'day'   => $day,
+                'id'    => $task->getId(),
+            ]);
+
+        }
         return $this->render('day_report/dayReport.html.twig', [
             'form' => $form->createView(),
 
@@ -32,12 +54,13 @@ class DayReportController extends AbstractController
     }
 
     /**
-     * @Route("dayReportAjax", options={"expose" = true})
+     * @Route("day-report-ajax", options={"expose" = true})
      *
      * @param Request $request
+     * @param SerializerInterface $serializer
      * @return mixed
      */
-    public function dayReportAjax(Request $request): Response
+    public function dayReportAjax(Request $request, SerializerInterface $serializer): Response
     {
         if ($request->isXmlHttpRequest()) {
             $projectId = $request->request->get('projectId');
@@ -46,17 +69,14 @@ class DayReportController extends AbstractController
             if (!$project) {
                 throw $this->createNotFoundException();
             }
+            $json = $serializer->serialize(
+                $project->getTasks(),
+                'json',
+                ['groups' => ['taskIdGroup', 'taskTitleGroup']]
+            );
 
-            $form = $this->createForm(TasksType::class, $project);
-            return $this->render('day_report/components/tasksSelect.html.twig', [
-                'form'        => $form->createView(),
-                'projectId'   => $projectId,
-                'submitRoute' => $this->generateUrl('app_task_addtask'),
-
-            ]);
-        } else {
-            return $this->redirectToRoute('app_calendar_calendar');
+            return $this->json($json);
         }
-
+        return $this->redirectToRoute('app_calendar_calendar');
     }
 }

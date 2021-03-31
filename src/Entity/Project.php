@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
@@ -152,6 +151,6 @@ class Project
      */
     public function __toString(): ?string
     {
-        return ( $this->getId() ) ? $this->getTitle(): 'Unknown project';
+        return ( $this->getId() ) ? $this->getTitle() : 'Unknown project';
     }
 }

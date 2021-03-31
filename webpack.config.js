@@ -27,7 +27,8 @@ Encore
     .addEntry('calendar', [
         './assets/styles/calendar.css',
         './assets/calendar.js',
-        './assets/js/onClickOnProject.js'
+        './assets/js/onClickOnProject.js',
+        './assets/js/TaskTime.js'
     ])
 
     // .addEntry('calendar', './assets/calendar.js')
