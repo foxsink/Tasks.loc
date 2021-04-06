@@ -14,6 +14,10 @@ sonata_admin:
         base_list_field: '@SonataAdmin/CRUD/base_list_field.html.twig'
         pager_links: '@SonataAdmin/Pager/links.html.twig'
         pager_results: '@SonataAdmin/Pager/results.html.twig'
+    assets:
+        extra_stylesheets:
+            - 'build/adminStatistic.css'
+
 
 sonata_block:
     blocks:

@@ -1,6 +1,7 @@
 <?php
 namespace App\Entity;
 
+use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -13,7 +14,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * Class User
  * @package App
  *
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  * @ORM\EntityListeners("App\EventListener\PasswordEncodePrePersist")
  * @ORM\Table(name="users")
  */
@@ -24,7 +25,7 @@ class User implements UserInterface
      * @var int|null
      *
      * @ORM\Id
-     * @ORM\GeneratedValue
+     * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Column(type="integer")
      */
     private ?int $id = null;
@@ -32,7 +33,8 @@ class User implements UserInterface
     /**
      * @var Collection
      *
-     * @ManyToMany(targetEntity="Project", mappedBy="users")
+     * @ManyToMany(targetEntity="Project", mappedBy="users", cascade={"persist"})
+     * @JoinTable(name="users_projects")
      *
      */
     private Collection $projects;
@@ -87,11 +89,33 @@ class User implements UserInterface
     private ?string $lastName = null;
 
     /**
+     * @var string|null
+     *
+     * @ORM\Column(type="string", unique=true)
+     */
+    private ?string $registerToken = null;
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(type="boolean", options={"default" = false})
+     */
+    private bool $allowLogin = false;
+
+    /**
+     * @var DateTimeInterface|null
+     * @ORM\Column (type="datetime")
+     */
+    private ?DateTimeInterface $tokenExpireAt = null;
+
+    /**
      * User constructor.
      */
     public function __construct()
     {
+        $this->tokenExpireAt = new \DateTime("+7 days");
         $this->projects = new ArrayCollection();
+        $this->userTimes = new ArrayCollection();
     }
 
     /**
@@ -261,6 +285,60 @@ class User implements UserInterface
     public function setUserTimes(Collection $userTimes): User
     {
         $this->userTimes = $userTimes;
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getRegisterToken(): ?string
+    {
+        return $this->registerToken;
+    }
+
+    /**
+     * @param string|null $registerToken
+     * @return User
+     */
+    public function setRegisterToken(?string $registerToken): User
+    {
+        $this->registerToken = $registerToken;
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getAllowLogin(): bool
+    {
+        return $this->allowLogin;
+    }
+
+    /**
+     * @param bool $allowLogin
+     * @return User
+     */
+    public function setAllowLogin(bool $allowLogin): User
+    {
+        $this->allowLogin = $allowLogin;
+        return $this;
+    }
+
+    /**
+     * @return DateTimeInterface|null
+     */
+    public function getTokenExpireAt(): ?DateTimeInterface
+    {
+        return $this->tokenExpireAt;
+    }
+
+    /**
+     * @param DateTimeInterface|null $tokenExpireAt
+     * @return User
+     */
+    public function setTokenExpireAt(?DateTimeInterface $tokenExpireAt): User
+    {
+        $this->tokenExpireAt = $tokenExpireAt;
         return $this;
     }
 

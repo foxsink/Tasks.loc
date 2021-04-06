@@ -14,7 +14,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * Class TaskTime
  * @package App\Entity
  *
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\TaskTimeRepository")
  * @ORM\Table (name="tasks_times")
  */
 class TaskTime
@@ -164,5 +164,8 @@ class TaskTime
         return $this;
     }
 
-
+    public function __toString()
+    {
+        return $this->description;
+    }
 }

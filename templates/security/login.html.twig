@@ -4,8 +4,31 @@
 
     {% form_theme form 'forms/securityTheme.html.twig' %}
     {{ form_start(form, {attr: {class: 'form-signin'}})}}
-    <img class="mb-4" src="img/logo.png" alt="" width="72" height="72">
-    <h1 class="h3 mb-3 font-weight-normal">{{ h1 }}</h1>
-    {{ error }}
+    <img class="mb-4" src="/img/logo.png" alt="" width="72" height="72">
+    <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+    {% for message in app.flashes('success') %}
+        {% if message is not null %}
+            <div class="alert alert-success" role="alert">
+                {{ message }}
+            </div>
+        {% endif %}
+    {% endfor %}
+    {% for message in app.flashes('warning') %}
+        {% if message is not null %}
+            <div class="alert alert-warning" role="alert">
+                {{ message }}
+            </div>
+        {% endif %}
+    {% endfor %}
+    {% for message in app.flashes('danger') %}
+        {% if message is not null %}
+            <div class="alert alert-danger" role="alert">
+                {{ message }}
+            </div>
+        {% endif %}
+    {% endfor %}
+    {{ form_widget(form.email) }}
+    {{ form_widget(form.password) }}
+    {{ form_widget(form.login) }} or <a href="{{ path('app_security_register') }}" class="btn btn-secondary">Register</a>
     {{ form_end(form) }}
 {% endblock %}

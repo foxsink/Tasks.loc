@@ -1,0 +1,46 @@
+{% extends '@SonataAdmin/standard_layout.html.twig' %}
+
+{% block sonata_admin_content %}
+    {% set period = ((date("-10 days").diff(date())).days)..0 %}
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Username/Day</th>
+            {% for i in period %}
+                <th scope="col">{{ date("-" ~ i ~ "days")|date("F-d") }}</th>
+            {% endfor %}
+
+        </tr>
+        </thead>
+
+        <tbody>
+        {% set row_count = 0 %}
+            {% for row in list %}
+                {% set row_count = row_count + 1 %}
+                <tr>
+                    <th scope="row">{{ row_count }}</th>
+                    <td>{{ row.email }}</td>
+                    {% for i in period %}
+                        <td>
+                            {% if date("-" ~ i ~ "days")|date("d") == row.date|date("d") %}
+                                <a href="{{ admin.generateUrl('day', {'id' : row.id, 'date': row.date}) }}"
+                                   class="link "
+                                >
+                                    {{ ((row.time_diff_sum)|date("H:i:s")) }}
+                                </a>
+                            {% else %}
+                                <p class="text-custom-gray">00:00:00</p>
+                            {% endif %}
+                        </td>
+                    {% endfor %}
+                </tr>
+
+            {% endfor %}
+
+        </tbody>
+    </table>
+
+
+
+{% endblock %}

@@ -16,3 +16,10 @@ doctrine:
                 dir: '%kernel.project_dir%/src/Entity'
                 prefix: 'App\Entity'
                 alias: App
+        dql:
+            datetime_functions:
+                datediff: App\DQL\DateDiffFunction
+                timediff: App\DQL\TimeDiffFunction
+                time_to_sec: App\DQL\TimeToSecFunction
+                sec_to_time: App\DQL\SecToTimeFunction
+                date: App\DQL\DateFunction

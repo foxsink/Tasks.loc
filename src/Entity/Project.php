@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping\OneToMany;
  * Class Project
  * @package App\Entity
  *
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\ProjectRepository")
  * @ORM\Table(name="projects")
  */
 class Project
@@ -31,7 +31,7 @@ class Project
     /**
      * @var Collection
      *
-     * @ManyToMany(targetEntity="User", inversedBy="projects")
+     * @ManyToMany(targetEntity="User", inversedBy="projects", cascade={"persist"})
      * @JoinTable(name="users_projects")
      */
     private Collection $users;
