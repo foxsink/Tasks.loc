@@ -46,8 +46,14 @@ class StatisticAdminController extends CRUDController
     {
         $range = new \DatePeriod(new DateTime('-10 days midnight'), new \DateInterval('P1D'), new DateTime('+1 day midnight -1 sec'));
         $list = $this->getDoctrine()->getRepository(TaskTime::class)->findAllForStatisticPage($range);
+        $result = [];
+        foreach ($list as $element) {
+            $result[$element['email']]['id'] = $element['id'];
+            $result[$element['email']]['email'] = $element['email'];
+            $result[$element['email']][$element['date']] = $element['time_diff_sum'];
+        }
         return $this->renderWithExtraParams('admin/statisticPage.html.twig', [
-            'list' => $list
+            'list' => $result
         ]);
     }
 

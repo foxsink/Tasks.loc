@@ -6,6 +6,7 @@ use App\Entity\Objects\UserProjectTask;
 use App\Entity\Project;
 use App\Form\DataTransformer\TaskIdToEntityTransformer;
 use App\Validation\ValidationGroupResolver;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -13,6 +14,8 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Security\Core\Security;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 class DayReportType extends AbstractType
 {
@@ -28,11 +31,22 @@ class DayReportType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $user = $options['user'];
         $builder
             ->add("project", EntityType::class, [
                 'error_bubbling' => false,
                 'class'          => Project::class,
                 'placeholder'    => 'Select project',
+                'query_builder'  => function(EntityRepository $repository) use ($user) {
+                    $qb = $repository->createQueryBuilder('p');
+                    $qb
+                        ->join('p.users', 'u')
+                        ->where('p.active = 1')
+                        ->andWhere('u.id = :id')
+                        ->setParameters(['id' => $user->getId()])
+                    ;
+                    return $qb;
+                }
             ])
             ->add('task', ChoiceType::class, [
                 'choices' => [],
@@ -66,6 +80,7 @@ class DayReportType extends AbstractType
             ->setDefaults([
                 'data_class'        => UserProjectTask::class,
                 'validation_groups' => $this->groupResolver,
+                'user'              => null,
             ])
         ;
     }

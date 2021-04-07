@@ -2,9 +2,13 @@
 
 namespace App\Controller;
 
+use App\Entity\Objects\DayTask;
 use App\Entity\Project;
 use App\Entity\Task;
+use App\Entity\TaskTime;
+use App\Entity\User;
 use App\Form\Type\Day\TaskType;
+use Doctrine\Common\Collections\ArrayCollection;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -29,7 +33,19 @@ class TaskController extends AbstractController
             return $this->redirectToRoute('app_calendar_calendar');
         }
 
-        $form = $this->createForm(TaskType::class, $task, [
+        $object = new DayTask();
+        $object
+            ->setTaskTitle($task->getTitle())
+            ->setTaskTimes(
+                new ArrayCollection(
+                    $this
+                        ->getDoctrine()
+                        ->getRepository(TaskTime::class)
+                        ->findAllTaskTimesByDay($task, new \DateTime("$year-$month-$day"))
+                )
+            )
+        ;
+        $form = $this->createForm(TaskType::class, $object, [
             'year'  => $year,
             'month' => $month,
             'day'   => $day,
@@ -38,9 +54,22 @@ class TaskController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
+            /** @var User $user */
+            $user = $this->getUser();
             $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($task);
+            foreach ($object->getTaskTimes() as $taskTime) {
+                $taskTime
+                    ->setUser($user)
+                    ->setTask($task)
+                ;
+                $entityManager->persist($taskTime);
+            }
+            foreach ($object->getTaskTimesToDelete() as $taskTime) {
+                $entityManager->remove($taskTime);
+            }
+
+            $task->setTitle($object->getTaskTitle());
+
             $entityManager->flush();
 
             return $this->redirectToRoute('app_task_edittasktime', [

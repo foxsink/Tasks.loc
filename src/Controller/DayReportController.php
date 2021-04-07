@@ -26,7 +26,9 @@ class DayReportController extends AbstractController
      */
     public function dayReport(Request $request, ?int $year, ?int $month, ?int $day): Response
     {
-        $form = $this->createForm(DayReportType::class, $object = new UserProjectTask());
+        $form = $this->createForm(DayReportType::class, $object = new UserProjectTask(), [
+            'user' => $this->getUser(),
+        ]);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $task = $object->getTask();

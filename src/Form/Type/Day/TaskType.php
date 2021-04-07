@@ -2,6 +2,7 @@
 
 namespace App\Form\Type\Day;
 
+use App\Entity\Objects\DayTask;
 use App\Entity\Task;
 use App\Entity\TaskTime;
 use Symfony\Component\Form\AbstractType;
@@ -17,7 +18,7 @@ class TaskType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title', TextType::class, [
+            ->add('taskTitle', TextType::class, [
                 'disabled' => true,
             ])
             ->add('taskTimes', CollectionType::class, [
@@ -42,7 +43,7 @@ class TaskType extends AbstractType
                 'year'  => '2021',
                 'month' => '03',
                 'day'   => '13',
-                'data_class' => Task::class
+                'data_class' => DayTask::class
             ])
         ;
     }

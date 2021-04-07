@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Task;
 use App\Entity\TaskTime;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -42,13 +43,11 @@ class TaskTimeRepository extends ServiceEntityRepository
 
     public function findTaskTimeForStatisticDay(User $user, \DateTime $date)
     {
-        $end = clone $date;
-        $start = $date;
-        $end = $end->modify('+1 day midnight -1 sec');
+        $start = $date->modify('midnight');
+        $end = clone $start;
+        $end = $end->modify('+1 day');
         $qb = $this->createQueryBuilder('tt');
         $qb
-            ->select('tt')
-
             ->leftJoin('tt.user', 'u')
 
             ->where('u.id = :user')
@@ -57,6 +56,26 @@ class TaskTimeRepository extends ServiceEntityRepository
 
             ->setParameters([
                 'user' => $user->getId(),
+                'start' => $start,
+                'end' => $end,
+            ])
+        ;
+        return $qb->getQuery()->getResult();
+    }
+
+    public function findAllTaskTimesByDay(Task $task, \DateTime $date)
+    {
+        $start = $date->modify('midnight');
+        $end = clone $start;
+        $end = $end->modify('+1 day');
+        $qb = $this->createQueryBuilder('tt');
+        $qb
+            ->where('tt.task = :id')
+            ->andWhere('tt.startedAt BETWEEN :start AND :end')
+            ->andWhere('tt.endedAt BETWEEN :start AND :end')
+
+            ->setParameters([
+                'id' => $task->getId(),
                 'start' => $start,
                 'end' => $end,
             ])

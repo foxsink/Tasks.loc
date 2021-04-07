@@ -23,11 +23,11 @@
                     <td>{{ row.email }}</td>
                     {% for i in period %}
                         <td>
-                            {% if date("-" ~ i ~ "days")|date("d") == row.date|date("d") %}
-                                <a href="{{ admin.generateUrl('day', {'id' : row.id, 'date': row.date}) }}"
+                            {% if attribute(row, date("-" ~ i ~ "days")|date("Y-m-d")) is defined %}
+                                <a href="{{ admin.generateUrl('day', {'id' : row.id, 'date': date("-" ~ i ~ "days")|date("Y-m-d")}) }}"
                                    class="link "
                                 >
-                                    {{ ((row.time_diff_sum)|date("H:i:s")) }}
+                                    {{ (attribute(row, date("-" ~ i ~ "days")|date("Y-m-d"))|date("H:i:s")) }}
                                 </a>
                             {% else %}
                                 <p class="text-custom-gray">00:00:00</p>

@@ -101,10 +101,10 @@ class TaskTime
     }
 
     /**
-     * @param int|null $user
+     * @param User|null $user
      * @return TaskTime
      */
-    public function setUser(?int $user): TaskTime
+    public function setUser(?User $user): TaskTime
     {
         $this->user = $user;
         return $this;
