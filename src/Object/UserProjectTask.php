@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Entity\Objects;
+namespace App\Object;
 
 use App\Validator as ProjectAssert;
 use App\Entity\Project;
@@ -10,7 +10,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Class UserProjectTask
- * @package App\Entity\Objects
+ * @package App\Entity\Object
  */
 class UserProjectTask
 {

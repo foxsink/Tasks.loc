@@ -27,6 +27,7 @@ services:
             - '../src/Kernel.php'
             - '../src/Tests/'
             - '../src/Mailer/'
+            - '../src/Object/'
 
     # controllers are imported separately to make sure services can be injected
     # as action arguments even if you don't extend any base controller class
@@ -58,3 +59,7 @@ services:
 
         tags:
             - { name: sonata.admin, manager_type: orm, group: Statistics, label: Statistics }
+    app.menu_listener:
+        class: App\EventListener\MenuBuilderListener
+        tags:
+            - { name: kernel.event_listener, event: sonata.admin.event.configure.menu.sidebar, method: addMenuItems }

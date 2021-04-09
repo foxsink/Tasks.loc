@@ -13,8 +13,10 @@
         "doctrine/doctrine-fixtures-bundle": "3.4",
         "doctrine/doctrine-migrations-bundle": "^3.0",
         "doctrine/orm": "^2.8",
+        "eightpoints/guzzle-bundle": "^8.2",
         "excelwebzone/recaptcha-bundle": "^1.5",
         "friendsofsymfony/jsrouting-bundle": "^2.7",
+        "jms/serializer-bundle": "^3.9",
         "phpdocumentor/reflection-docblock": "^5.2",
         "sensio/framework-extra-bundle": "^6.1",
         "sonata-project/admin-bundle": "^3.31",
@@ -99,7 +101,7 @@
     },
     "extra": {
         "symfony": {
-            "allow-contrib": false,
+            "allow-contrib": true,
             "require": "4.4.*"
         }
     },

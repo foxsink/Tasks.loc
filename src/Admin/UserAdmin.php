@@ -1,17 +1,16 @@
 <?php
 
-
 namespace App\Admin;
-
 
 use App\Entity\User;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
-use Sonata\AdminBundle\Admin\FieldDescriptionInterface;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
+use Sonata\AdminBundle\FieldDescription\FieldDescriptionInterface;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
@@ -28,38 +27,39 @@ class UserAdmin extends AbstractAdmin
      */
     public function preUpdate($object)
     {
-        $password = $this->getForm()->get('password')->getData();
+        $password = $this->getForm()->get('password')->getData() ?? $object->getPassword();
 
         $object->setPassword($password);
     }
 
     protected function configureFormFields(FormMapper $form): void
     {
-        $new = is_null($this->subject->getId());
+        $new = is_null($this->subject);
 
         $form
-            ->tab('General')
-                ->with('Addresses')
-                    ->add('id', NumberType::class, [
-                        'required' => false,
-                    ])
-                    ->add('email',TextType::class)
-                    ->add('password', TextType::class, [
-                        'mapped' => $new,
-                    ])
-                    ->add('roles', ChoiceType::class, [
-                        'multiple' => true,
-                        'choices'  => [
-                            'ROLE_USER' => 'ROLE_USER',
-                            'ROLE_ADMIN' => 'ROLE_ADMIN',
-                            'ROLE_SUPERADMIN' => 'ROLE_SUPERADMIN',
-                        ],
-                    ])
-                    ->add('firstName', TextType::class)
-                    ->add('lastName', TextType::class)
-                ->end()
-            ->end()
-
+            ->add('id', NumberType::class, [
+                'required' => false,
+            ])
+            ->add('email',TextType::class)
+            ->add('password', TextType::class, [
+                'required' => false,
+                'mapped'   => $new,
+            ])
+            ->add('roles', ChoiceType::class, [
+                'multiple' => true,
+                'choices'  => [
+                    'ROLE_USER' => 'ROLE_USER',
+                    'ROLE_ADMIN' => 'ROLE_ADMIN',
+                    'ROLE_SUPERADMIN' => 'ROLE_SUPERADMIN',
+                ],
+            ])
+            ->add('firstName', TextType::class)
+            ->add('lastName', TextType::class)
+            ->add('tokenExpireAt',DateTimeType::class, [
+                'date_widget' => 'single_text',
+                'time_widget' => 'single_text',
+            ])
+            ->add('allowLogin')
         ;
     }
     protected function configureDatagridFilters(DatagridMapper $filter): void
@@ -89,6 +89,12 @@ class UserAdmin extends AbstractAdmin
                 'editable' => true,
             ])
             ->add('lastName',null, [
+                'editable' => true,
+            ])
+            ->add('tokenExpireAt',FieldDescriptionInterface::TYPE_DATETIME, [
+                'editable' => true,
+            ])
+            ->add('allowLogin',null, [
                 'editable' => true,
             ])
             ->add('_action', null, [
