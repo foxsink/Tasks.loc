@@ -4,10 +4,10 @@ namespace App\Object;
 
 use JMS\Serializer\Annotation as JMS;
 
-class Posts
+class PostsObject
 {
     /**
-     * @JMS\Type("array<App\Object\Post>")
+     * @JMS\Type("array<App\Object\PostObject>")
      * @JMS\Inline()
      */
     private array $posts = [];
@@ -19,5 +19,4 @@ class Posts
     {
         return $this->posts;
     }
-
 }

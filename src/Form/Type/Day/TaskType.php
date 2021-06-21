@@ -2,7 +2,7 @@
 
 namespace App\Form\Type\Day;
 
-use App\Entity\Objects\DayTask;
+use App\Object\DayTask;
 use App\Entity\Task;
 use App\Entity\TaskTime;
 use Symfony\Component\Form\AbstractType;

@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Entity\Objects\DayTask;
+use App\Object\DayTask;
 use App\Entity\Project;
 use App\Entity\Task;
 use App\Entity\TaskTime;

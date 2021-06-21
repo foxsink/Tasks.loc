@@ -3,17 +3,37 @@
 {% block content %}
 
 {#    {% form_theme form 'forms/postsListTheme.html.twig' %}#}
-    {{ statusCode }}
-    {{ header }}
-    {% for post in posts %}
-        <div class="col-md-8 blog-main">
-            <div class="blog-post">
-                <h2 class="blog-post-title">{{ post.title }}</h2>
-                <p>Post id = {{ post.id }}</p>
-                <p>User id = {{ post.userId }}</p>
-                <p class="background-gray">{{ post.body }}</p>
-            </div>
-        </div>
 
-    {% endfor %}
+    <div class="count">
+        Total items: {{ pagination.getTotalItemCount }}
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                {# sorting of properties based on query components #}
+                <th scope="col">API ID</th>
+                <th scope="col">User ID</th>
+                <th scope="col">ID</th>
+                <th scope="col">Title</th>
+            </tr>
+        </thead>
+
+        <tbody>
+        {# table body #}
+        {% for article in pagination %}
+            <tr {% if loop.index is odd %}class="color"{% endif %}>
+                <td>{{ article.apiId }}</td>
+                <td>{{ article.userId }}</td>
+                <td>{{ article.id }}</td>
+                <td>{{ article.title }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+
+    </table>
+    {# display navigation #}
+    <div class="center">
+        {{ knp_pagination_render(pagination)  }}
+    </div>
+
 {% endblock %}

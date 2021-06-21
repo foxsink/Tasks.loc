@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Entity\Objects;
+namespace App\Object;
 
 use App\Entity\TaskTime;
 use Doctrine\Common\Collections\ArrayCollection;

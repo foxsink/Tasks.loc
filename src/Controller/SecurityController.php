@@ -5,6 +5,7 @@ namespace App\Controller;
 
 
 use App\Entity\User;
+use App\Event\RegisterUserEvent;
 use App\Exception\ExpiredTokenException;
 use App\Exception\UsedTokenException;
 use App\Exception\UserNotFoundException;
@@ -15,9 +16,9 @@ use App\RegisterToken\TokenGenerator;
 use Exception;
 use LogicException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
@@ -57,16 +58,18 @@ class SecurityController extends AbstractController
      * @param Request $request
      * @param TokenGenerator $tokenGenerator
      * @param Mailer $mail
+     * @param EventDispatcherInterface $dispatcher
      * @return Response
-     * @throws Exception
      * @throws TransportExceptionInterface
+     * @throws Exception
      */
-    public function register(Request $request, TokenGenerator $tokenGenerator, Mailer $mail): Response
+    public function register(Request $request, TokenGenerator $tokenGenerator, Mailer $mail, EventDispatcherInterface $dispatcher): Response
     {
         if ($this->getUser()) {
             return $this->redirectToRoute("app_index_index");
         }
         $user = new User();
+
         $form = $this->createForm(RegisterType::class, $user,['btn-label' => 'Sign up!']);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -76,6 +79,8 @@ class SecurityController extends AbstractController
             $token = $tokenGenerator->createToken($user);
             $entityManager->flush();
             $mail->sendVerifyEmail($user->getEmail(), $token);
+            $event = new RegisterUserEvent($user);
+            $dispatcher->dispatch($event, RegisterUserEvent::NAME);
             return $this->redirectToRoute('app_index_index');
         }
         return $this->render('security/register.html.twig', [
@@ -91,7 +96,6 @@ class SecurityController extends AbstractController
      */
     public function tokenVerify(TokenGenerator $tokenGenerator, string $token): Response
     {
-        $user = null;
         try {
             $user = $tokenGenerator->activateUserByToken($token);
             $this->addFlash('success',  $user->getUsername() . " verified!");

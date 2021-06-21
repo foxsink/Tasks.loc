@@ -4,7 +4,7 @@ namespace App\Object;
 
 use JMS\Serializer\Annotation as JMS;
 
-class Post
+class PostObject
 {
 
     /**
@@ -28,9 +28,9 @@ class Post
 
     /**
      * @param int|null $userId
-     * @return Post
+     * @return PostObject
      */
-    public function setUserId(?int $userId): Post
+    public function setUserId(?int $userId): PostObject
     {
         $this->userId = $userId;
         return $this;
@@ -46,9 +46,9 @@ class Post
 
     /**
      * @param int|null $id
-     * @return Post
+     * @return PostObject
      */
-    public function setId(?int $id): Post
+    public function setId(?int $id): PostObject
     {
         $this->id = $id;
         return $this;
@@ -64,9 +64,9 @@ class Post
 
     /**
      * @param string|null $title
-     * @return Post
+     * @return PostObject
      */
-    public function setTitle(?string $title): Post
+    public function setTitle(?string $title): PostObject
     {
         $this->title = $title;
         return $this;
@@ -82,9 +82,9 @@ class Post
 
     /**
      * @param string|null $body
-     * @return Post
+     * @return PostObject
      */
-    public function setBody(?string $body): Post
+    public function setBody(?string $body): PostObject
     {
         $this->body = $body;
         return $this;

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "65a050428933ed8146e1f14d281fa408",
+    "content-hash": "68ff08a50c7f0f1cc2f7c99b4f0030a5",
     "packages": [
         {
             "name": "behat/transliterator",
@@ -2604,6 +2604,86 @@
             "time": "2021-03-23T12:21:23+00:00"
         },
         {
+            "name": "knplabs/knp-components",
+            "version": "v3.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/KnpLabs/knp-components.git",
+                "reference": "7db2eb032591ded5809455af8a4dfdfda079041c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/KnpLabs/knp-components/zipball/7db2eb032591ded5809455af8a4dfdfda079041c",
+                "reference": "7db2eb032591ded5809455af8a4dfdfda079041c",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.3 || ^8.0",
+                "symfony/event-dispatcher-contracts": "^1.1 || ^2.0",
+                "symfony/http-foundation": "^4.4 || ^5.1"
+            },
+            "require-dev": {
+                "doctrine/mongodb-odm": "^2.0",
+                "doctrine/orm": "^2.7",
+                "doctrine/phpcr-odm": "^1.2",
+                "ext-pdo_sqlite": "*",
+                "jackalope/jackalope-doctrine-dbal": "^1.2",
+                "phpunit/phpunit": "^9.5",
+                "ruflin/elastica": "^7.0",
+                "symfony/http-kernel": "^4.4 || ^5.1",
+                "symfony/property-access": "^4.4 || ^5.1"
+            },
+            "suggest": {
+                "doctrine/common": "to allow usage pagination with Doctrine ArrayCollection",
+                "doctrine/mongodb-odm": "to allow usage pagination with Doctrine ODM MongoDB",
+                "doctrine/orm": "to allow usage pagination with Doctrine ORM",
+                "doctrine/phpcr-odm": "to allow usage pagination with Doctrine ODM PHPCR",
+                "propel/propel1": "to allow usage pagination with Propel ORM",
+                "ruflin/elastica": "to allow usage pagination with ElasticSearch Client",
+                "solarium/solarium": "to allow usage pagination with Solarium Client",
+                "symfony/property-access": "To allow sorting arrays"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Knp\\Component\\": "src/Knp/Component"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "KnpLabs Team",
+                    "homepage": "https://knplabs.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://github.com/KnpLabs/knp-components/contributors"
+                }
+            ],
+            "description": "Knplabs component library",
+            "homepage": "http://github.com/KnpLabs/knp-components",
+            "keywords": [
+                "components",
+                "knp",
+                "knplabs",
+                "pager",
+                "paginator"
+            ],
+            "support": {
+                "issues": "https://github.com/KnpLabs/knp-components/issues",
+                "source": "https://github.com/KnpLabs/knp-components/tree/v3.0.2"
+            },
+            "time": "2021-03-16T13:52:01+00:00"
+        },
+        {
             "name": "knplabs/knp-menu",
             "version": "v3.1.3",
             "source": {
@@ -2738,6 +2818,79 @@
                 "source": "https://github.com/KnpLabs/KnpMenuBundle/tree/v3.1.0"
             },
             "time": "2020-11-29T17:04:51+00:00"
+        },
+        {
+            "name": "knplabs/knp-paginator-bundle",
+            "version": "v5.4.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/KnpLabs/KnpPaginatorBundle.git",
+                "reference": "8a7255062dd9f6ff8a3a4712a4b34bdbbc9f31f7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/KnpLabs/KnpPaginatorBundle/zipball/8a7255062dd9f6ff8a3a4712a4b34bdbbc9f31f7",
+                "reference": "8a7255062dd9f6ff8a3a4712a4b34bdbbc9f31f7",
+                "shasum": ""
+            },
+            "require": {
+                "knplabs/knp-components": "^2.4 || ^3.0",
+                "php": "^7.3 || ^8.0",
+                "symfony/config": "^4.4 || ^5.0",
+                "symfony/dependency-injection": "^4.4 || ^5.0",
+                "symfony/event-dispatcher": "^4.4 || ^5.0",
+                "symfony/http-foundation": "^4.4 || ^5.0",
+                "symfony/http-kernel": "^4.4 || ^5.0",
+                "symfony/routing": "^4.4 || ^5.0",
+                "symfony/translation": "^4.4 || ^5.0",
+                "twig/twig": "^2.0 || ^3.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^8.5 || ^9.4",
+                "symfony/expression-language": "^4.4 || ^5.0",
+                "symfony/templating": "^4.4 || ^5.0"
+            },
+            "type": "symfony-bundle",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "5.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Knp\\Bundle\\PaginatorBundle\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "KnpLabs Team",
+                    "homepage": "http://knplabs.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "http://github.com/KnpLabs/KnpPaginatorBundle/contributors"
+                }
+            ],
+            "description": "Paginator bundle for Symfony to automate pagination and simplify sorting and other features",
+            "homepage": "http://github.com/KnpLabs/KnpPaginatorBundle",
+            "keywords": [
+                "bundle",
+                "knp",
+                "knplabs",
+                "pager",
+                "pagination",
+                "paginator",
+                "symfony"
+            ],
+            "support": {
+                "issues": "https://github.com/KnpLabs/KnpPaginatorBundle/issues",
+                "source": "https://github.com/KnpLabs/KnpPaginatorBundle/tree/v5.4.2"
+            },
+            "time": "2020-12-17T08:19:16+00:00"
         },
         {
             "name": "laminas/laminas-code",
@@ -2937,6 +3090,114 @@
                 }
             ],
             "time": "2021-02-25T21:54:58+00:00"
+        },
+        {
+            "name": "mark-gerarts/auto-mapper-plus",
+            "version": "1.3.12",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mark-gerarts/automapper-plus.git",
+                "reference": "b35e1a3013f940d84520b794424a84913f5e83ea"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mark-gerarts/automapper-plus/zipball/b35e1a3013f940d84520b794424a84913f5e83ea",
+                "reference": "b35e1a3013f940d84520b794424a84913f5e83ea",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.1.0"
+            },
+            "require-dev": {
+                "mark-gerarts/phpstan-automapper-plus": "^0.1.0",
+                "phpunit/phpunit": "^7.0",
+                "symfony/debug": "^3.3",
+                "symfony/var-dumper": "^3.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "AutoMapperPlus\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Mark Gerarts",
+                    "email": "mark.gerarts@gmail.com"
+                }
+            ],
+            "description": "An AutoMapper for PHP",
+            "keywords": [
+                "automapper",
+                "converter",
+                "object-to-object"
+            ],
+            "support": {
+                "issues": "https://github.com/mark-gerarts/automapper-plus/issues",
+                "source": "https://github.com/mark-gerarts/automapper-plus/tree/master"
+            },
+            "time": "2020-05-05T15:01:57+00:00"
+        },
+        {
+            "name": "mark-gerarts/automapper-plus-bundle",
+            "version": "1.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mark-gerarts/automapper-plus-bundle.git",
+                "reference": "1183b2b98082b40dab9940c5a17621eeb163ecaa"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mark-gerarts/automapper-plus-bundle/zipball/1183b2b98082b40dab9940c5a17621eeb163ecaa",
+                "reference": "1183b2b98082b40dab9940c5a17621eeb163ecaa",
+                "shasum": ""
+            },
+            "require": {
+                "mark-gerarts/auto-mapper-plus": "^1.3",
+                "php": ">=7.1.0",
+                "symfony/framework-bundle": "^3.4|^4.0|^5.0"
+            },
+            "require-dev": {
+                "matthiasnoback/symfony-dependency-injection-test": "^3.1|^4.1",
+                "phpunit/phpunit": "^7.5|^8.0",
+                "symfony/phpunit-bridge": "^5.0",
+                "symfony/property-access": "^3.4|^4.4|^5.0"
+            },
+            "suggest": {
+                "symfony/property-access": "^3.4|^4.4"
+            },
+            "type": "symfony-bundle",
+            "autoload": {
+                "psr-4": {
+                    "AutoMapperPlus\\AutoMapperPlusBundle\\": [
+                        ""
+                    ]
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Mark Gerarts",
+                    "email": "mark.gerarts@gmail.com"
+                }
+            ],
+            "description": "A Symfony bundle for AutoMapper+",
+            "keywords": [
+                "automapper",
+                "bundle"
+            ],
+            "support": {
+                "issues": "https://github.com/mark-gerarts/automapper-plus-bundle/issues",
+                "source": "https://github.com/mark-gerarts/automapper-plus-bundle/tree/1.3.0"
+            },
+            "time": "2020-04-01T13:52:25+00:00"
         },
         {
             "name": "monolog/monolog",

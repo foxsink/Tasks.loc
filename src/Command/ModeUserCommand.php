@@ -21,8 +21,8 @@ class ModeUserCommand extends Command
 
     public function __construct(EntityManagerInterface $entityManager)
     {
-        parent::__construct();
         $this->entityManager = $entityManager;
+        parent::__construct();
     }
 
     protected function configure()

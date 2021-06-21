@@ -6,6 +6,7 @@ use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
+use Symfony\Component\Mime\Message;
 
 class Mailer
 {
@@ -36,6 +37,29 @@ class Mailer
             ->context([
                 'token' => "Tasks.loc/token/$token",
                 'username' => $to,
+            ])
+        ;
+        try {
+            $this->mailer->send($email);
+        } catch (TransportExceptionInterface $e) {
+            throw $e;
+        }
+    }
+
+    /**
+     * @throws TransportExceptionInterface
+     */
+    public function sendOnUserRegistered(string $username)
+    {
+        $email = (new TemplatedEmail())
+            ->from(new Address($this->address, $this->name))
+            ->to('iar.karpov@gmail.com')
+            ->subject('Verify registration.')
+            ->embed(fopen('img/logo.png', 'r'), 'logo')
+            ->htmlTemplate('email/onUserRegistered.html.twig')
+            ->context([
+                'to' => 'iar.karpov@gmail.com',
+                'username' => $username,
             ])
         ;
         try {

@@ -11,6 +11,8 @@ parameters:
 services:
     # default configuration for services in *this* file
     _defaults:
+        bind:
+            GuzzleHttp\ClientInterface $myClient: '@eight_points_guzzle.client.my_client'
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
     App\Mailer\Mailer:
@@ -41,6 +43,12 @@ services:
         tags:
             - { name: doctrine.orm.entity_listener }
 #                arguments: ['@security.password_encoder']
+    App\EventListener\RegisterUserListener:
+        tags:
+            - { name: kernel.event_listener, event: app.user.registered, method: onRegisterUser }
+    App\EventListener\RegisterUserPostListener:
+        tags:
+            - { name: kernel.event_listener, event: app.user.registered, method: onRegisterUser }
     admin.users:
         class: App\Admin\UserAdmin
         arguments: [~, App\Entity\User, ~]
