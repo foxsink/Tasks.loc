@@ -35,7 +35,7 @@ class Mailer
             ->embed(fopen('img/logo.png', 'r'), 'logo')
             ->htmlTemplate('email/Email.html.twig')
             ->context([
-                'token' => "Tasks.loc/token/$token",
+                'token' => "http://37.193.251.216/token/$token",
                 'username' => $to,
             ])
         ;

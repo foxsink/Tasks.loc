@@ -34,7 +34,7 @@ class UserAdmin extends AbstractAdmin
 
     protected function configureFormFields(FormMapper $form): void
     {
-        $new = is_null($this->subject);
+        $new = is_null($this->subject->getId());
 
         $form
             ->add('id', NumberType::class, [
