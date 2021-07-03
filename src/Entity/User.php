@@ -15,7 +15,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * @package App
  *
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
- * @ORM\EntityListeners("App\EventListener\PasswordEncodePrePersist")
+ * @ORM\EntityListeners(value={"App\EventListener\PasswordEncodePrePersist"})
  * @ORM\Table(name="users")
  */
 class User implements UserInterface
