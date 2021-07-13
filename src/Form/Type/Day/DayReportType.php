@@ -2,9 +2,9 @@
 
 namespace App\Form\Type\Day;
 
-use App\Entity\Objects\UserProjectTask;
 use App\Entity\Project;
 use App\Form\DataTransformer\TaskIdToEntityTransformer;
+use App\Object\UserProjectTask;
 use App\Validation\ValidationGroupResolver;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;

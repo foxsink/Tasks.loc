@@ -2,10 +2,10 @@
 
 namespace App\Controller;
 
-use App\Entity\Objects\UserProjectTask;
 use App\Entity\Project;
 use App\Entity\Task;
 use App\Form\Type\Day\DayReportType;
+use App\Object\UserProjectTask;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
