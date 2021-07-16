@@ -17,6 +17,8 @@ class CalendarType extends AbstractType
             ->add("selectMonth", DateType::class, [
                 'widget' => 'choice',
                 'format' => 'dMy',
+                'data'   => new \DateTime(),
+                'label'  => 'Select month and year'
 
             ])
             ->add("submit", SubmitType::class)
