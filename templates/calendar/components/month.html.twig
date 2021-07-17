@@ -1,7 +1,7 @@
 <h1 class="text-center">{{ month|date('F') }}</h1>
 <div class="row">
     {% for day in currentMonth %}
-        <div class="col-to-7">
+        <div class="col-to-7 {% if 'now'|date('d') == day|date('d') %}background-gray{% endif %}">
             <a href="{{ path('app_dayreport_dayreport', {year: day|date('Y') ,month: day|date('m'), day: day|date('d') }) }}">
                 {{ day|date('Y-m-d') }}
             </a>

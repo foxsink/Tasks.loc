@@ -29,7 +29,7 @@ class CalendarController extends AbstractController
 
         $startDatetime->modify('last monday of last month');
         $endDatetime = clone $startDatetime;
-        $endDatetime->modify('+6 week');
+        $endDatetime->modify('+5 day + 1 month');
 
         $currentMonth = new \DatePeriod(
             $startDatetime,
@@ -40,7 +40,7 @@ class CalendarController extends AbstractController
         return $this->render('calendar/calendar.html.twig', [
             'form'         => $form->createView(),
             'currentMonth' => $currentMonth,
-            'month'        => $startDatetime->modify('+2 week'),
+            'month'        => $startDatetime,
 
             ]);
     }
@@ -48,6 +48,8 @@ class CalendarController extends AbstractController
     /**
      * @Route("submitMonth")
      * @param Request $request
+     *
+     * @return RedirectResponse
      */
     public function submitMonth(Request $request): RedirectResponse
     {
