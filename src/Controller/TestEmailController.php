@@ -22,7 +22,7 @@ class TestEmailController extends AbstractController
         $bgColor = imagecolorallocate($im, 16, 39, 62);
         $linkColor = imagecolorallocate($im, 30, 206, 122);
         $textColor = imagecolorallocate($im, 255, 255, 255);
-        imagefilledrectangle($im, 0, 0, 399, 29, $bgColor);
+        imagefilledrectangle($im, 0, 0, 359, 359, $bgColor);
 
 // The text to draw
         $text = 'Testing...';
@@ -32,7 +32,7 @@ class TestEmailController extends AbstractController
 
 // Add the text
         imagettftext($im, 14, 0, 2, 2, $textColor, $font, $text);
-        imagettftext($im, 14, 0, 2, 22, $linkColor, $font, $text);
+        imagettftext($im, 14, 0, 2, 22, $linkColor, $font, $link);
 
 // Using imagepng() results in clearer text compared with imagejpeg()
         imagepng($im, $appKernel->getProjectDir() . '/public/img/test.png');
