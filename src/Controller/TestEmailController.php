@@ -31,8 +31,8 @@ class TestEmailController extends AbstractController
         $font = $appKernel->getProjectDir() . '/fonts/Roboto-Regular.ttf';
 
 // Add the text
-        imagettftext($im, 14, 0, 2, 2, $textColor, $font, $text);
-        imagettftext($im, 14, 0, 2, 22, $linkColor, $font, $link);
+        imagettftext($im, 14, 0, 1, 16, $textColor, $font, $text);
+        imagettftext($im, 14, 0, 1, 36, $linkColor, $font, $link);
 
 // Using imagepng() results in clearer text compared with imagejpeg()
         imagepng($im, $appKernel->getProjectDir() . '/public/img/test.png');
