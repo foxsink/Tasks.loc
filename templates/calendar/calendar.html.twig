@@ -1,7 +1,7 @@
 {% extends '/layout/base.html.twig' %}
 
 {% block content %}
-    {{ dump(absolute_url(asset('public/img/fill.png'))) }}
+    {{ absolute_url(asset('public/img/fill.png')) }}
     {% form_theme form 'forms/calendarTheme.html.twig' %}
     {{ form_start(form, {action: path('app_calendar_submitmonth')})}}
         {{ form_widget(form.selectMonth.day, {attr: {style: 'display:none'}}) }}
