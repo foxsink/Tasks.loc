@@ -68,4 +68,21 @@ class Mailer
             throw $e;
         }
     }
+    public function sendTest()
+    {
+        $email = (new TemplatedEmail())
+            ->from(new Address($this->address, $this->name))
+            ->to('iar.karpov@gmail.com')
+            ->subject('Test')
+            ->htmlTemplate('email/test.html.twig')
+            ->context([
+                'to' => 'iar.karpov@gmail.com',
+            ])
+        ;
+        try {
+            $this->mailer->send($email);
+        } catch (TransportExceptionInterface $e) {
+            throw $e;
+        }
+    }
 }
