@@ -35,7 +35,7 @@ class TestEmailController extends AbstractController
         imagettftext($im, 14, 0, 2, 22, $linkColor, $font, $link);
 
 // Using imagepng() results in clearer text compared with imagejpeg()
-        imagepng($im, $appKernel->getProjectDir() . '/public/img/test.png');
+        imagepng($im, $appKernel->getProjectDir() . '/../test.png');
         sleep(4);
         $mail->sendTest();
         return $this->redirect('http://80.89.192.241/public/img/test.png');
