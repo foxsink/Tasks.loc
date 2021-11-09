@@ -1,15 +1,42 @@
-<div style="background: url({{ absolute_url(asset('public/img/fill.png')) }}) repeat;">
-    <br>123
-    <br>
-    <br>123
-    <br>
-    <br>123
-    <br>
-    <br>123
-    <img src="{{ absolute_url(asset('public/img/test1.png')) }}" style="+div {display: none}">
-    <br>
-    <br>123
-    <br>
-    <br>123
-    <br>
-</div>
+<html lang="en">
+    <head>
+        <title></title>
+        <style type="text/css">
+            @media (prefers-color-scheme: dark) {
+                .test-dark {
+                    color: black;
+                }
+                .test-light {
+                    color: white;
+                }
+            }
+            @media (prefers-color-scheme: light) {
+                .test-dark {
+                    color: black;
+                }
+                .test-light {
+                    color: white;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div style="background: url({{ absolute_url(asset('public/img/fill.png')) }}) repeat;">
+            <p class="test-dark">TEST DARK</p>
+            <p class="test-light">TEST DARK</p>
+            <br>123
+            <br>
+            <br>123
+            <br>
+            <br>123
+            <br>
+            <br>123
+            <img src="{{ absolute_url(asset('public/img/test1.png')) }}">
+            <br>
+            <br>123
+            <br>
+            <br>123
+            <br>
+        </div>
+    </body>
+</html>
