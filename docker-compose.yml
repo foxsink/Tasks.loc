@@ -1,0 +1,52 @@
+version: "3.9"
+
+networks:
+    web-network:
+
+services:
+    php:
+        build:
+            context: .
+            dockerfile: docker/php/Dockerfile
+            target: php-dev
+
+        networks:
+            - web-network
+
+        volumes:
+            - ./:/srv/app:rw,cached
+            - ./node_modules:/srv/app/node_modules:rw,cached
+
+        entrypoint: entrypoint
+
+    nginx:
+        build:
+            context: ./docker/nginx/
+            dockerfile: Dockerfile
+            target: nginx
+
+        networks:
+            - web-network
+
+        volumes:
+            - ./:/srv/app:rw,cached
+
+        ports:
+            - 80:80
+
+    node:
+        build:
+            context: ./docker/node/
+            dockerfile: Dockerfile
+            target: node
+
+        entrypoint: entrypoint
+
+        volumes:
+            - ./:/srv/app:rw,cached
+
+        networks:
+            - web-network
+
+volumes:
+    app_cache:
