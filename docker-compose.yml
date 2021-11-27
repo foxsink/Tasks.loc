@@ -15,6 +15,7 @@ services:
 
         volumes:
             - ./:/srv/app:rw,cached
+            - php_sessions:/sessions
 #            - ./node_modules:/srv/app/node_modules:rw,cached
 
     nginx:
@@ -28,7 +29,6 @@ services:
 
         volumes:
             - ./:/srv/app:rw,cached
-
         ports:
             - 80:80
 
@@ -49,3 +49,4 @@ services:
 
 volumes:
     app_cache:
+    php_sessions:

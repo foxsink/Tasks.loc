@@ -10,6 +10,7 @@ bin/console fos:js-routing:dump --format=json --target=assets/fos_js_routes.json
 
 mkdir -p var/cache var/log
 
+chown -R www-data:www-data /sessions
 setfacl -dR -m u:"www-data":rwX -m u:$(whoami):rwX var
 setfacl -R -m u:"www-data":rwX -m u:$(whoami):rwX var
 
