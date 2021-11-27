@@ -1,0 +1,30 @@
+version: "3.9"
+
+services:
+    php:
+        build:
+            target: php-dev
+        environment:
+            - MYSQL_USER=yaroslav
+            - MYSQL_USER_PASS=zyBdvG@sdb2vgz
+            - MYSQL_DATABASE=tasks.loc
+
+    mysql:
+        build:
+            context: .
+            dockerfile: docker/mysql/Dockerfile
+            target: mysql
+            args:
+                - MYSQL_ROOT_PASS=1
+                - MYSQL_USER=yaroslav
+                - MYSQL_USER_PASS=zyBdvG@sdb2vgz
+                - MYSQL_DATABASE=tasks.loc
+        volumes:
+            - mysql-data:/var/lib/mysql
+        ports:
+            - "3306:3306"
+
+        networks:
+            - web-network
+volumes:
+    mysql-data:

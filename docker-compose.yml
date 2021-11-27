@@ -15,9 +15,7 @@ services:
 
         volumes:
             - ./:/srv/app:rw,cached
-            - ./node_modules:/srv/app/node_modules:rw,cached
-
-        entrypoint: entrypoint
+#            - ./node_modules:/srv/app/node_modules:rw,cached
 
     nginx:
         build:
@@ -44,6 +42,7 @@ services:
 
         volumes:
             - ./:/srv/app:rw,cached
+#            - ./node_modules:/srv/app/node_modules:rw,cached
 
         networks:
             - web-network
