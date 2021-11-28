@@ -26,7 +26,7 @@ class Mailer
      * @param string $token
      * @throws TransportExceptionInterface
      */
-    public function sendVerifyEmail(string $to, string $token)
+    public function sendVerifyEmail(string $to, string $token, string $host)
     {
         $email = (new TemplatedEmail())
             ->from(new Address($this->address, $this->name))
@@ -35,7 +35,7 @@ class Mailer
             ->embed(fopen('img/logo.png', 'r'), 'logo')
             ->htmlTemplate('email/Email.html.twig')
             ->context([
-                'token' => "http://80.89.192.241/token/$token",
+                'token' => "$host/token/$token",
                 'username' => $to,
             ])
         ;

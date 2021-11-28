@@ -78,7 +78,7 @@ class SecurityController extends AbstractController
             $entityManager->persist($user);
             $token = $tokenGenerator->createToken($user);
             $entityManager->flush();
-            $mail->sendVerifyEmail($user->getEmail(), $token);
+            $mail->sendVerifyEmail($user->getEmail(), $token, $request->getSchemeAndHttpHost());
             $event = new RegisterUserEvent($user);
             $dispatcher->dispatch($event, RegisterUserEvent::NAME);
             return $this->redirectToRoute('app_index_index');
